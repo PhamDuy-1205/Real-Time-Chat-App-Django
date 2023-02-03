@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title> Real Time Chat App </title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel='stylesheet' type='text/css' media='screen' href="{% static 'style/main.css' %}">
+
+</head>
+
+<body>
+    {% comment %}* navbar start {% endcomment %}
+    <h1> <a href="{% url 'home' %}"> Logo </a> </h1>
+    <form method="GET" action="{% url 'home' %}">
+        <input type="text" name="q" placeholder="Search...">
+    </form>
+    {% if user.is_authenticated %}   <p> Hello <b> {{user.username}} </b> </p>   {% endif %}
+    {% if not user.is_authenticated %}
+    <a href="{% url 'login' %}"> Login </a>|
+    <a href="{% url 'register' %}"> Register </a>
+    {% endif %}
+    {% if user.is_authenticated %}<a href="{% url 'logout' %}"> Logout </a>{% endif %}
+
+    {% csrf_token %}
+    {% if messages %}
+        <ul class="messages">
+        {% for message in messages %}
+        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>  {{ message }}  </li>   {% comment %} *hàm if có sẵn trong Django document dùng để lấy thông báo ra {% endcomment %}
+        {% endfor %}
+        </ul>
+    {% endif %}
+    <hr>
+    {% comment %}* navbar end {% endcomment %}
+
+
+    
+    {% block content %}{% endblock content %}
+
+
+
+</body>
+</html>
+
+
+
+
+==================================================================================================================================================================================================================================================================================================================================================================================
+
+
+
+{% for room in rooms %}
+    <div>
+        {% if request.user == room.host %}
+        <a href="{% url 'update-room' room.id %}"> Edit </a>
+        |
+        <a href="{% url 'delete-room' room.id %}"> Delete </a>
+        {% endif %}
+        <span> <b>Host</b>: <a href="{% url 'profile' room.host.id %}">@{{room.host.username}}</a> </span> <small> (Create at: {{room.created}}) </small>
+        <h2> <a href="{% url 'room' room.id %}"> {{room.name}} </a> </h2>
+        <small> <b>Topic</b>: {{room.topic.name}} </small>
+        <hr>
+    </div>
+{% endfor %}
+
+
+
+==================================================================================================================================================================================================================================================================================================================================================================================
+
+
+
+<h3> Recent Activity </h3>
+<hr>
+{% for message in room_messages %}
+    <div>
+        <small> <a href="{% url 'profile' message.user.id  %}">@{{message.user}}</a>  {{message.created|timesince}}</small>\
+        <p> {{message.body}} </p>
+        {% if request.user == message.user %}  <a href="{% url 'delete-message' message.id %}"> Delete </a>  {% endif %}
+        <hr>
+    </div>
+{% endfor %}
+
+
+
+
+==================================================================================================================================================================================================================================================================================================================================================================================
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
